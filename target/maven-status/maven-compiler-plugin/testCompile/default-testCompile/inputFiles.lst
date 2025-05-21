@@ -1,0 +1,7 @@
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/service/ProductServiceTest.java
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/controller/ProductControllerTest.java
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/exception/ProductNotFoundExceptionTest.java
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/DemoPipelineApplicationTests.java
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/integration/ExceptionHandlingIntegrationTest.java
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/exception/GlobalExceptionHandlerTest.java
+/home/wyiu/personal/demopipeline/src/test/java/com/example/demopipeline/model/ProductTest.java

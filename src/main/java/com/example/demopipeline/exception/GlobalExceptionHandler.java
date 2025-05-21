@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -49,6 +50,25 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Map<String, String>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, String> errors = new HashMap<>();
+        
+        @SuppressWarnings("null")
+        String typeName = ex.getRequiredType() != null 
+                ? ex.getRequiredType().getSimpleName() 
+                : "unknown";
+                
+        String errorMessage = String.format(
+                "Failed to convert value '%s' to required type '%s'", 
+                ex.getValue(), 
+                typeName);
+                
+        errors.put(ex.getName(), errorMessage);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @Data

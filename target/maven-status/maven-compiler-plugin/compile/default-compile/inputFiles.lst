@@ -1,0 +1,6 @@
+/home/wyiu/personal/demopipeline/src/main/java/com/example/demopipeline/exception/ProductNotFoundException.java
+/home/wyiu/personal/demopipeline/src/main/java/com/example/demopipeline/model/Product.java
+/home/wyiu/personal/demopipeline/src/main/java/com/example/demopipeline/controller/ProductController.java
+/home/wyiu/personal/demopipeline/src/main/java/com/example/demopipeline/DemoPipelineApplication.java
+/home/wyiu/personal/demopipeline/src/main/java/com/example/demopipeline/service/ProductService.java
+/home/wyiu/personal/demopipeline/src/main/java/com/example/demopipeline/exception/GlobalExceptionHandler.java

@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+demo-pipeline,com.example.demopipeline.model,Product.ProductBuilder,0,54,0,0,0,1,0,8,0,8
+demo-pipeline,com.example.demopipeline.model,Product,27,230,21,25,0,9,16,24,0,17
+demo-pipeline,com.example.demopipeline.exception,GlobalExceptionHandler,1,99,1,1,0,25,1,6,0,6
+demo-pipeline,com.example.demopipeline.exception,ProductNotFoundException,0,9,0,0,0,4,0,2,0,2
+demo-pipeline,com.example.demopipeline.exception,GlobalExceptionHandler.ErrorResponse,16,132,11,13,0,5,9,14,0,11
+demo-pipeline,com.example.demopipeline.service,ProductService,0,106,0,6,0,24,0,11,0,8
+demo-pipeline,com.example.demopipeline.controller,ProductController,0,48,0,0,0,9,0,7,0,7
+demo-pipeline,com.example.demopipeline,DemoPipelineApplication,5,3,0,0,2,1,1,1,1,1

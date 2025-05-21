@@ -12,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -281,5 +283,82 @@ class ProductControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(productService).deleteProduct(999L);
+    }
+    @Test
+    void getAllProducts_ShouldHandleEmptyAndLargeResults() throws Exception {   
+    // Test with empty list
+    when(productService.getAllProducts()).thenReturn(Collections.emptyList());
+    mockMvc.perform(get("/api/products"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(0)));
+
+    // Test with large list
+    List<Product> largeList = IntStream.range(0, 50)
+            .mapToObj(i -> Product.builder()
+                    .id((long) i)
+                    .name("Product " + i)
+                    .price((double) i)
+                    .category(i % 2 == 0 ? "even" : "odd")
+                    .build())
+            .collect(Collectors.toList());
+
+    when(productService.getAllProducts()).thenReturn(largeList);
+    mockMvc.perform(get("/api/products"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(50)))
+            .andExpect(jsonPath("$[0].name", is("Product 0")))
+            .andExpect(jsonPath("$[49].name", is("Product 49")));
+    }
+
+    @Test
+    void createProduct_ShouldHandleAllValidationScenarios() throws Exception {
+    // Test multiple validation failures
+    Product invalidProduct = new Product();
+    // No required fields set
+
+    mockMvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(invalidProduct)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.name").exists())
+            .andExpect(jsonPath("$.price").exists());
+
+    // Test negative price validation
+    Product negativePrice = Product.builder()
+            .name("Test Product")
+            .price(-10.0)
+            .build();
+
+    mockMvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(negativePrice)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.price").exists());
+    }
+
+    @Test
+    void updateProduct_ShouldHandleValidationAndNotFound() throws Exception {
+    // Test validation during update
+    Product invalidUpdate = Product.builder().price(-5.0).build();
+
+    mockMvc.perform(put("/api/products/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(invalidUpdate)))
+            .andExpect(status().isBadRequest());
+
+    // Test not found during update
+    Product validProduct = Product.builder()
+            .name("Valid Product")
+            .price(29.99)
+            .category("test")
+            .build();
+
+    when(productService.updateProduct(eq(999L), any(Product.class)))
+            .thenThrow(new ProductNotFoundException("Product not found with id: 999"));
+
+    mockMvc.perform(put("/api/products/999")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(validProduct)))
+            .andExpect(status().isNotFound());
     }
 }

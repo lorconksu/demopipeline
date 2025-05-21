@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import java.util.Objects;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -171,5 +172,72 @@ class ProductServiceTest {
     void deleteProduct_ShouldThrowException_WhenProductDoesNotExist() {
         // When & Then
         assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(999L));
+    }
+    @Test
+    void createProduct_ShouldHandleNullValues() {
+        // Even with null values, the service should still create a product
+        Product nullProduct = new Product();
+        Product result = productService.createProduct(nullProduct);
+        
+        assertNotNull(result.getId());
+        assertNull(result.getName());
+        assertNull(result.getDescription());
+        assertNull(result.getPrice());
+        assertNull(result.getCategory());
+    }
+
+    @Test
+    void getProductsByCategory_ShouldHandleNullCategory() {
+        // Given
+        productService.createProduct(testProduct); // category: electronics
+        
+        // When - using null category (should be treated as literal)
+        Product nullCategoryProduct = Product.builder()
+                .name("Null Category Product")
+                .price(49.99)
+                .category(null)
+                .build();
+        productService.createProduct(nullCategoryProduct);
+        
+        // Getting products with null category
+        // Use Objects.equals to handle null safely
+        List<Product> results = productService.getAllProducts().stream()
+                .filter(p -> Objects.equals(null, p.getCategory()))
+                .collect(Collectors.toList());
+        
+        // Then
+        assertEquals(1, results.size());
+        assertEquals("Null Category Product", results.get(0).getName());
+    }
+
+    @Test
+    void getAllProducts_AfterCRUDOperations() {
+        // Create some initial products
+        Product p1 = productService.createProduct(testProduct);
+        Product p2 = productService.createProduct(Product.builder()
+                .name("Second Product")
+                .price(29.99)
+                .category("test")
+                .build());
+        
+        // Verify initial state
+        assertEquals(2, productService.getAllProducts().size());
+        
+        // Update a product
+        Product updatedProduct = Product.builder()
+                .name("Updated Name")
+                .price(39.99)
+                .category("updated")
+                .build();
+        productService.updateProduct(p1.getId(), updatedProduct);
+        
+        // Delete a product
+        productService.deleteProduct(p2.getId());
+        
+        // Verify final state
+        List<Product> finalProducts = productService.getAllProducts();
+        assertEquals(1, finalProducts.size());
+        assertEquals("Updated Name", finalProducts.get(0).getName());
+        assertEquals("updated", finalProducts.get(0).getCategory());
     }
 }
