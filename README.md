@@ -150,4 +150,4 @@ This application is designed to meet the following pipeline requirements:
 - Containerized build stage with Maven
 - SonarQube integration with 85% code coverage
 - Security scan with Grype (no critical or high vulnerabilities)
-- Helm chart for Kubernetes deployment
+- Helm chart for Kubernetes deployment.
