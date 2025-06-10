@@ -3,20 +3,16 @@ package com.example.demopipeline.exception;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class GlobalExceptionHandlerTest {
 
     private final GlobalExceptionHandler handler = new GlobalExceptionHandler();
 
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void testHandleGlobalException() {
         // Given
@@ -27,6 +23,7 @@ class GlobalExceptionHandlerTest {
         
         // Then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(500, response.getBody().getStatus());
         assertEquals("An unexpected error occurred", response.getBody().getMessage());
         assertNotNull(response.getBody().getTimestamp());

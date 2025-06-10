@@ -1,7 +1,7 @@
 # Multi-stage build to minimize final image size and potential vulnerabilities
 
 # Build stage
-FROM maven:3.9.5-eclipse-temurin-17-alpine AS build
+FROM maven:3.9.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 COPY pom.xml .
 # Download dependencies first (for better caching)
