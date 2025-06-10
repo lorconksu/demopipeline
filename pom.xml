@@ -81,7 +81,7 @@
                         <id>make-sbom</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>make-sbom</goal>
+                            <goal>makeBom</goal>
                         </goals>
                         <configuration>
                             <schemaVersion>1.5</schemaVersion>
