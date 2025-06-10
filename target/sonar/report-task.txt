@@ -1,6 +1,0 @@
-projectKey=demo-pipeline
-serverUrl=https://sonarqube.harness.oni.agiledefense.xyz
-serverVersion=9.9.8.100196
-dashboardUrl=https://sonarqube.harness.oni.agiledefense.xyz/dashboard?id=demo-pipeline
-ceTaskId=AZbynVrduVGIiBV9_02R
-ceTaskUrl=https://sonarqube.harness.oni.agiledefense.xyz/api/ce/task?id=AZbynVrduVGIiBV9_02R
