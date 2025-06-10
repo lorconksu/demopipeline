@@ -71,12 +71,12 @@ import java.util.Map;
 <span class="fc" id="L71">        return new ResponseEntity&lt;&gt;(errors, HttpStatus.BAD_REQUEST);</span>
     }
 
-<span class="pc bpc" id="L74" title="11 of 24 branches missed.">    @Data</span>
-<span class="fc" id="L75">    @AllArgsConstructor</span>
+    @Data
+    @AllArgsConstructor
     static class ErrorResponse {
-<span class="fc" id="L77">        private int status;</span>
-<span class="fc" id="L78">        private String message;</span>
-<span class="fc" id="L79">        private LocalDateTime timestamp;</span>
+        private int status;
+        private String message;
+        private LocalDateTime timestamp;
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
